@@ -12,8 +12,7 @@ conda command is available on your system path. Refer to your preferred conda in
 - [miniforge installation](https://github.com/conda-forge/miniforge#install)
 - [conda installation documentation](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html).
 
-1. Create a new conda environment with the same python version as required by the Poplar
-   SDK. For example, on ubuntu 20 use `python=3.9`
+1. Create a new conda environment with the minimum python version required:
 
    ```bash
    conda create -n mess python=3.9
@@ -22,7 +21,7 @@ conda command is available on your system path. Refer to your preferred conda in
 1. Install all required packages for developing MESS:
 
    ```bash
-   pip install -e .[dev]"
+   pip install -e .[dev]
    ```
 
 1. Install the pre-commit hooks
