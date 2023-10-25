@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=64", "setuptools_scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mess"
+authors = [{ name = "Graphcore Research", email = "contact@graphcore.ai" }]
+description = "MESS: Modern Electronic Structure Simulations"
+readme = "README.md"
+license = { text = "MIT License" }
+requires-python = ">=3.9"
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Topic :: Scientific/Engineering",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+]
+dependencies = [
+  "chex",
+  "jax[cpu]",
+  "jaxtyping",
+  "periodictable",
+  "pyscf",
+  "py3Dmol",
+  "basis_set_exchange",
+]
+dynamic = ["version"]
+
+[project.optional-dependencies]
+dev = ["jupyter-book", "pytest", "pre-commit", "ruff", "mdformat-gfm"]
+
+[tool.pytest.ini_options]
+addopts = "-s -v --durations=10"
+filterwarnings = [
+  "error",
+  'ignore:Since PySCF\-2\.3, B3LYP \(and B3P86\) are changed.*:UserWarning',
+  'ignore:Function mol\.dumps drops attribute spin.*:UserWarning',
+]
+
+[tool.ruff]
+extend-include = ["*.ipynb"]
+select = ["E", "F", "CPY001"]
+
+[tool.ruff.flake8-copyright]
+author = "Graphcore"
