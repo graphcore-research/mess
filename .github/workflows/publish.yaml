@@ -27,12 +27,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      # Install dependencies
-      - name: Set up Python 3.8
+
+      - name: Set up Python 3.9
         uses: actions/setup-python@v4
         with:
           python-version: 3.9
           cache: pip
+
       - name: Install requirements
         run: |
           pip install -U pip
@@ -44,10 +45,12 @@ jobs:
 
       - name: Setup Pages
         uses: actions/configure-pages@v3
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          path: 'docs/_build/html'
+          path: "docs/_build/html"
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
