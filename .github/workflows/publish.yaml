@@ -37,11 +37,11 @@ jobs:
         run: |
           pip install -U pip
           pip install .[dev]
-          
+
       - name: Build book
         run: |
           jupyter-book build docs
-          
+
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact
