@@ -1,5 +1,6 @@
 # MESS: Modern Electronic Structure Simulations
 
+![Mess Book](https://img.shields.io/badge/MESS_Book?link=https%3A%2F%2Furban-disco-ln3g6we.pages.github.io%2Fintro.html)
 [![unit tests](https://github.com/graphcore-research/mess/actions/workflows/unittest.yaml/badge.svg)](https://github.com/graphcore-research/mess/actions/workflows/unittest.yaml)
 [![pre-commit checks](https://github.com/graphcore-research/mess/actions/workflows/pre-commit.yaml/badge.svg)](https://github.com/graphcore-research/mess/actions/workflows/pre-commit.yaml)
 
