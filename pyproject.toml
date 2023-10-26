@@ -28,7 +28,15 @@ dependencies = [
 dynamic = ["version"]
 
 [project.optional-dependencies]
-dev = ["jupyter-book", "pytest", "pre-commit", "ruff", "mdformat-gfm"]
+dev = [
+  "jupyter-book",
+  "pytest",
+  "pre-commit",
+  "ruff",
+  "mdformat-gfm",
+  "ghp-import",
+  "seaborn",
+]
 
 [tool.pytest.ini_options]
 addopts = "-s -v --durations=10"
