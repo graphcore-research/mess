@@ -39,7 +39,7 @@ conda command is available on your system path. Refer to your preferred conda in
    git push --set-upstream origin feature
    ```
 
-   The last command will prints a link that you can follow to open a PR.
+   The last command will print a link that you can follow to open a PR.
 
 ## Testing
 
