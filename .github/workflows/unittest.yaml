@@ -27,3 +27,7 @@ jobs:
       - name: Run unit tests
         run: |
           pytest .
+
+      - name: Build MESS book
+        run: |
+          jupyter-book build docs
