@@ -2,7 +2,8 @@
 # Learn more at https://jupyterbook.org/customize/config.html
 
 title: "MESS: Modern Electronic Structure Simulations"
-author: "@hatemhelal"
+author: "Hatem Helal"
+copyright: "2023"
 
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html
