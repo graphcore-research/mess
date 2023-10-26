@@ -1,6 +1,6 @@
 # MESS: Modern Electronic Structure Simulations
 
-blah blah blah molecules
+more coming soon
 
-```{tableofcontents}
-```
+<!-- ```{tableofcontents}
+``` -->
