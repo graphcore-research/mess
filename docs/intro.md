@@ -2,5 +2,5 @@
 
 more coming soon
 
-<!-- ```{tableofcontents}
-``` -->
+```{tableofcontents}
+```

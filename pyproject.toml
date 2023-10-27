@@ -24,6 +24,8 @@ dependencies = [
   "pyscf",
   "py3Dmol",
   "basis_set_exchange",
+  "sympy",
+  "pyquante2@git+https://github.com/rpmuller/pyquante2@pure",
 ]
 dynamic = ["version"]
 
@@ -48,6 +50,7 @@ filterwarnings = [
 [tool.ruff]
 extend-include = ["*.ipynb"]
 select = ["E", "F", "CPY001"]
+ignore = ["E741"]
 
 [tool.ruff.flake8-copyright]
 author = "Graphcore"

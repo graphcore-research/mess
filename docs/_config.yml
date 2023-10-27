@@ -2,7 +2,7 @@
 # Learn more at https://jupyterbook.org/customize/config.html
 
 title: "MESS: Modern Electronic Structure Simulations"
-author: "Hatem Helal"
+author: "Graphcore"
 copyright: "2023"
 
 # Force re-execution of notebooks on each build.
@@ -22,7 +22,7 @@ bibtex_bibfiles:
 # Information about where the book exists on the web
 repository:
   url: https://github.com/graphcore-research/mess
-  path_to_book: book
+  path_to_book: docs
   branch: main
 
 # Add GitHub buttons to your book
@@ -30,3 +30,6 @@ repository:
 html:
   use_issues_button: true
   use_repository_button: true
+
+launch_buttons:
+  colab_url: "https://colab.research.google.com"

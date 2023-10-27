@@ -3,3 +3,8 @@
 
 format: jb-book
 root: intro
+chapters:
+  - file: misc
+    sections:
+      - file: gto_integrals
+      - file: gammanu
