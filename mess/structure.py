@@ -83,9 +83,9 @@ def nuclear_energy(structure: Structure) -> float:
 
     Evaluated by taking sum over all unique pairs of atom centers:
 
-        sum_{j > i} z_i z_j / |r_i - r_j|
+    .. math:: \\sum_{j > i} \\frac{Z_i Z_j}{|\\mathbf{r}_i - \\mathbf{r}_j|}
 
-    where z_i is the charge of the ith atom (the atomic number).
+    where :math:`z_i` is the charge of the ith atom (the atomic number).
 
     Args:
         structure (Structure): input structure

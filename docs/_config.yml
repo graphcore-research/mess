@@ -12,6 +12,7 @@ execute:
 
 # Define the name of the latex output file for PDF builds
 latex:
+  latex_engine: xelatex
   latex_documents:
     targetname: book.tex
 
@@ -33,3 +34,15 @@ html:
 
 launch_buttons:
   colab_url: "https://colab.research.google.com"
+
+sphinx:
+  extra_extensions:
+    - "sphinx.ext.autodoc"
+    - "sphinx.ext.autosummary"
+    - "sphinx.ext.mathjax"
+    - "sphinx.ext.viewcode"
+  config:
+    add_module_names: False
+    autosummary_generate: True
+    templates_path: "_templates"
+    html_theme: pydata_sphinx_theme

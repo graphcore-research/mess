@@ -1,5 +1,6 @@
 # jupyter-book derived files
-book/_build
+docs/_autosummary
+docs/_build
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -8,3 +8,5 @@ chapters:
     sections:
       - file: gto_integrals
       - file: gammanu
+
+  - file: api
