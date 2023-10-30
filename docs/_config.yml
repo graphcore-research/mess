@@ -46,3 +46,5 @@ sphinx:
     autosummary_generate: True
     templates_path: "_templates"
     html_theme: pydata_sphinx_theme
+    html_theme_options:
+      navigation_with_keys: False
