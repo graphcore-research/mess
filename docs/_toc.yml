@@ -4,6 +4,7 @@
 format: jb-book
 root: intro
 chapters:
+  - file: prologue
   - file: misc
     sections:
       - file: gto_integrals
