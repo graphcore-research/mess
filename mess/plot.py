@@ -1,14 +1,19 @@
 # Copyright (c) 2023 Graphcore Ltd. All rights reserved.
 import numpy as np
 from numpy.typing import NDArray
+from more_itertools import chunked
+import py3Dmol
 
 from .structure import Structure
 from .types import MeshAxes
 from .units import to_angstrom
 
 
-def plot_volume(structure: Structure, value: NDArray, axes: MeshAxes):
+
+def plot_volume(v: py3Dmol.view, value: NDArray, axes: MeshAxes):
     """Plots volumetric data value with molecular structure.
+
+    Volumetric render using https://3dmol.csb.pitt.edu/doc/VolumetricRendererSpec.html
 
     Args:
         structure (Structure): molecular structure
@@ -17,11 +22,46 @@ def plot_volume(structure: Structure, value: NDArray, axes: MeshAxes):
 
     Returns:
         py3DMol View object
+
     """
-    v = structure.view()
-    v.addVolumetricData(cube_data(value, axes), "cube", build_transferfn(value))
+
+    s = cube_data(value, axes)
+    v.addVolumetricData(s, "cube", build_transferfn(value))
     return v
 
+
+def plot_isosurfaces(view: py3Dmol.view, value: NDArray, axes: MeshAxes, percentiles = [95, 75]):
+    """Plots volumetric data value with molecular structure.
+
+    IsoSurface render using https://3dmol.csb.pitt.edu/doc/IsoSurfaceSpec.html
+
+    Args:
+        structure (Structure): molecular structure
+        value (NDArray): the volume data to render
+        axes (MeshAxes): the axes over which the data was sampled.
+
+    Returns:
+        py3DMol View object
+
+    """
+
+    voldata_str = cube_data(value, axes)
+
+    v = np.percentile(np.abs(value), tuple(reversed(sorted(percentiles))))
+    for sign in [-1, 1]:
+      for isovalind in (0,1):
+        isoval = sign * v[isovalind]
+        tf = {
+            "isoval": isoval,
+            "smoothness": 2,
+            "opacity": 0.9 if isovalind == 1 else 1.0,
+            "voldata": voldata_str,
+            "volformat": "cube",
+            "volscheme": {"gradient": "rwb", "min": -v[0], "max": v[0]},
+        }
+        view.addVolumetricData(voldata_str, "cube", tf)
+
+    return view
 
 def cube_data(value: NDArray, axes: MeshAxes) -> str:
     """Generate the cube file format as a string.  See:
@@ -35,24 +75,50 @@ def cube_data(value: NDArray, axes: MeshAxes) -> str:
     Returns:
         str: cube format representation of the volumetric data.
     """
-    axes = [to_angstrom(ax) for ax in axes]
+    # The first two lines of the header are comments, they are generally ignored by
+    # parsing packages or used as two default labels.
     fmt = "cube format\n\n"
+
+    axes = [to_angstrom(ax) for ax in axes]
     x, y, z = axes
+    # The third line has the number of atoms included in the file followed by the
+    # position of the origin of the volumetric data.
+    fmt += f"0 {cube_format_vec([x[0], y[0], z[0]])}\n"
+
+    # The next three lines give the number of voxels along each axis (x, y, z)
+    # followed by the axis vector. Note this means the volume need not be aligned
+    # with the coordinate axis, indeed it also means it may be sheared although most
+    # volumetric packages won't support that.
+    # The length of each vector is the length of the side of the voxel thus allowing
+    # non cubic volumes.
+    # If the sign of the number of voxels in a dimension is positive then the
+    # units are Bohr, if negative then Angstroms.
     nx, ny, nz = [ax.shape[0] for ax in axes]
-    fmt += "0 " + " ".join([f"{v:12.6f}" for v in [x[0], y[0], z[0]]]) + "\n"
-    fmt += f"{nx} " + " ".join([f"{v:12.6f}" for v in [x[1] - x[0], 0.0, 0.0]]) + "\n"
-    fmt += f"{ny} " + " ".join([f"{v:12.6f}" for v in [0.0, y[1] - y[0], 0.0]]) + "\n"
-    fmt += f"{nz} " + " ".join([f"{v:12.6f}" for v in [0.0, 0.0, z[1] - z[0]]]) + "\n"
+    dx, dy, dz = [ax[1] - ax[0] for ax in axes]
+    fmt += f"{nx} {cube_format_vec([dx, 0.0, 0.0])}\n"
+    fmt += f"{ny} {cube_format_vec([0.0, dy, 0.0])}\n"
+    fmt += f"{nz} {cube_format_vec([0.0, 0.0, dz])}\n"
 
-    line = ""
-    for i in range(len(value)):
-        line += f"{value[i]:12.6f}"
+    # The last section in the header is one line for each atom consisting of 5
+    # numbers, the first is the atom number, the second is the charge, and the last
+    # three are the x,y,z coordinates of the atom center.
+    pass  # Number of atoms = 0 above
 
-        if i % 6 == 0:
-            fmt += line + "\n"
-            line = ""
+    # The volumetric data is straightforward, one floating point number for each
+    # volumetric element.  Traditionally the grid is arranged with the x axis as
+    # the outer loop and the z axis as the inner loop
+    for vals in chunked(value, 6):
+        fmt += f"{cube_format_vec(vals)}\n"
 
     return fmt
+
+def cube_format_vec(vals):
+    """
+    From https://paulbourke.net/dataformats/cube, floats are formatted 12.6
+    """
+    # Benchmarks showed this is 4x faster than numpy.printoptions...
+    return " ".join([f"{v:12.6f}" for v in vals])
+
 
 
 def build_transferfn(value: NDArray) -> dict:

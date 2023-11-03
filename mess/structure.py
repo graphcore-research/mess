@@ -47,7 +47,7 @@ class Structure:
         return xyz
 
     def view(self) -> "view":
-        return view(data=self.to_xyz(), style={"stick": {"radius": 0.06}})
+        return view(data=self.to_xyz(), style={"sphere": {"radius": 0.1}})
 
 
 def molecule(name: str):
