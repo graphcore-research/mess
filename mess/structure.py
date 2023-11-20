@@ -6,7 +6,7 @@ import numpy as np
 from periodictable import elements
 
 from .types import FloatNx3, IntN
-from .units import to_angstrom, to_bohr
+from .units import to_bohr
 
 
 @chex.dataclass
