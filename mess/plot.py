@@ -4,10 +4,8 @@ from numpy.typing import NDArray
 from more_itertools import chunked
 import py3Dmol
 
-from .structure import Structure
 from .types import MeshAxes
 from .units import to_angstrom
-
 
 
 def plot_volume(v: py3Dmol.view, value: NDArray, axes: MeshAxes):
@@ -30,7 +28,9 @@ def plot_volume(v: py3Dmol.view, value: NDArray, axes: MeshAxes):
     return v
 
 
-def plot_isosurfaces(view: py3Dmol.view, value: NDArray, axes: MeshAxes, percentiles = [95, 75]):
+def plot_isosurfaces(
+    view: py3Dmol.view, value: NDArray, axes: MeshAxes, percentiles=[95, 75]
+):
     """Plots volumetric data value with molecular structure.
 
     IsoSurface render using https://3dmol.csb.pitt.edu/doc/IsoSurfaceSpec.html
@@ -49,19 +49,20 @@ def plot_isosurfaces(view: py3Dmol.view, value: NDArray, axes: MeshAxes, percent
 
     v = np.percentile(np.abs(value), tuple(reversed(sorted(percentiles))))
     for sign in [-1, 1]:
-      for isovalind in (0,1):
-        isoval = sign * v[isovalind]
-        tf = {
-            "isoval": isoval,
-            "smoothness": 2,
-            "opacity": 0.9 if isovalind == 1 else 1.0,
-            "voldata": voldata_str,
-            "volformat": "cube",
-            "volscheme": {"gradient": "rwb", "min": -v[0], "max": v[0]},
-        }
-        view.addVolumetricData(voldata_str, "cube", tf)
+        for isovalind in (0, 1):
+            isoval = sign * v[isovalind]
+            tf = {
+                "isoval": isoval,
+                "smoothness": 2,
+                "opacity": 0.9 if isovalind == 1 else 1.0,
+                "voldata": voldata_str,
+                "volformat": "cube",
+                "volscheme": {"gradient": "rwb", "min": -v[0], "max": v[0]},
+            }
+            view.addVolumetricData(voldata_str, "cube", tf)
 
     return view
+
 
 def cube_data(value: NDArray, axes: MeshAxes) -> str:
     """Generate the cube file format as a string.  See:
@@ -112,13 +113,13 @@ def cube_data(value: NDArray, axes: MeshAxes) -> str:
 
     return fmt
 
+
 def cube_format_vec(vals):
     """
     From https://paulbourke.net/dataformats/cube, floats are formatted 12.6
     """
     # Benchmarks showed this is 4x faster than numpy.printoptions...
     return " ".join([f"{v:12.6f}" for v in vals])
-
 
 
 def build_transferfn(value: NDArray) -> dict:
