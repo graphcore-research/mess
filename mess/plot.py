@@ -9,14 +9,37 @@ from .types import MeshAxes
 from .units import to_angstrom
 
 
+def plot_molecule(view: py3Dmol.view, structure: Structure) -> py3Dmol.view:
+    """Plots molecular structure.
 
-def plot_volume(v: py3Dmol.view, value: NDArray, axes: MeshAxes):
+    Args:
+        view (py3Dmol.view): py3DMol View to which to add visualizer
+        structure (Structure): molecular structure
+
+    Returns:
+        py3DMol View object
+
+    """
+    xyz = f"{structure.num_atoms}\n\n"
+    sym = structure.atomic_symbol
+    pos = to_angstrom(structure.position)
+
+    for i in range(structure.num_atoms):
+        r = np.array2string(pos[i, :], separator="\t")[1:-1]
+        xyz += f"{sym[i]}\t{r}\n"
+
+    view.addModel(xyz)
+    view.setStyle({"sphere": {"radius": 0.1}})
+    return view
+
+
+def plot_volume(view: py3Dmol.view, value: NDArray, axes: MeshAxes):
     """Plots volumetric data value with molecular structure.
 
     Volumetric render using https://3dmol.csb.pitt.edu/doc/VolumetricRendererSpec.html
 
     Args:
-        structure (Structure): molecular structure
+        view (py3Dmol.view): py3DMol View to which to add visualizer
         value (NDArray): the volume data to render
         axes (MeshAxes): the axes over which the data was sampled.
 
@@ -26,42 +49,51 @@ def plot_volume(v: py3Dmol.view, value: NDArray, axes: MeshAxes):
     """
 
     s = cube_data(value, axes)
-    v.addVolumetricData(s, "cube", build_transferfn(value))
-    return v
+    view.addVolumetricData(s, "cube", build_transferfn(value))
+    return view
 
 
-def plot_isosurfaces(view: py3Dmol.view, value: NDArray, axes: MeshAxes, percentiles = [95, 75]):
+def plot_isosurfaces(
+    view: py3Dmol.view, value: NDArray, axes: MeshAxes, percentiles=[95, 75]
+):
     """Plots volumetric data value with molecular structure.
 
     IsoSurface render using https://3dmol.csb.pitt.edu/doc/IsoSurfaceSpec.html
 
     Args:
-        structure (Structure): molecular structure
+        view (py3Dmol.view): py3DMol View to which to add visualizer
         value (NDArray): the volume data to render
         axes (MeshAxes): the axes over which the data was sampled.
+        percentiles (tuple): percentiles at which to draw isosurfaces
 
     Returns:
         py3DMol View object
 
+    Note:
+        3Dmol does not currently implement full transparency, so only two
+        percentiles are accepted, with the inner one being rendered with full opacity.
+        - https://github.com/3dmol/3Dmol.js/issues/224
     """
+    assert len(percentiles) == 2
 
     voldata_str = cube_data(value, axes)
 
     v = np.percentile(np.abs(value), tuple(reversed(sorted(percentiles))))
     for sign in [-1, 1]:
-      for isovalind in (0,1):
-        isoval = sign * v[isovalind]
-        tf = {
-            "isoval": isoval,
-            "smoothness": 2,
-            "opacity": 0.9 if isovalind == 1 else 1.0,
-            "voldata": voldata_str,
-            "volformat": "cube",
-            "volscheme": {"gradient": "rwb", "min": -v[0], "max": v[0]},
-        }
-        view.addVolumetricData(voldata_str, "cube", tf)
+        for isovalind in (0, 1):
+            isoval = sign * v[isovalind]
+            tf = {
+                "isoval": isoval,
+                "smoothness": 2,
+                "opacity": 0.9 if isovalind == 1 else 1.0,
+                "voldata": voldata_str,
+                "volformat": "cube",
+                "volscheme": {"gradient": "rwb", "min": -v[0], "max": v[0]},
+            }
+            view.addVolumetricData(voldata_str, "cube", tf)
 
     return view
+
 
 def cube_data(value: NDArray, axes: MeshAxes) -> str:
     """Generate the cube file format as a string.  See:
@@ -112,13 +144,13 @@ def cube_data(value: NDArray, axes: MeshAxes) -> str:
 
     return fmt
 
+
 def cube_format_vec(vals):
     """
     From https://paulbourke.net/dataformats/cube, floats are formatted 12.6
     """
     # Benchmarks showed this is 4x faster than numpy.printoptions...
     return " ".join([f"{v:12.6f}" for v in vals])
-
 
 
 def build_transferfn(value: NDArray) -> dict:

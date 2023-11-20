@@ -4,10 +4,9 @@ from typing import List
 import chex
 import numpy as np
 from periodictable import elements
-from py3Dmol import view
 
 from .types import FloatNx3, IntN
-from .units import to_angstrom, to_bohr
+from .units import to_bohr
 
 
 @chex.dataclass
@@ -34,20 +33,6 @@ class Structure:
     @property
     def num_electrons(self) -> int:
         return np.sum(self.atomic_number)
-
-    def to_xyz(self) -> str:
-        xyz = f"{self.num_atoms}\n\n"
-        sym = self.atomic_symbol
-        pos = to_angstrom(self.position)
-
-        for i in range(self.num_atoms):
-            r = np.array2string(pos[i, :], separator="\t")[1:-1]
-            xyz += f"{sym[i]}\t{r}\n"
-
-        return xyz
-
-    def view(self) -> "view":
-        return view(data=self.to_xyz(), style={"sphere": {"radius": 0.1}})
 
 
 def molecule(name: str):
