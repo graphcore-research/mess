@@ -4,7 +4,6 @@ from numpy.typing import NDArray
 from more_itertools import chunked
 import py3Dmol
 
-from .structure import Structure
 from .types import MeshAxes
 from .units import to_angstrom
 

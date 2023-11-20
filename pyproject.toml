@@ -20,6 +20,7 @@ dependencies = [
   "chex",
   "jax[cpu]",
   "jaxtyping",
+  "more-itertools",
   "periodictable",
   "pyscf",
   "py3Dmol",
