@@ -1,9 +1,10 @@
 # Copyright (c) 2023 Graphcore Ltd. All rights reserved.
 import numpy as np
-from numpy.typing import NDArray
-from more_itertools import chunked
 import py3Dmol
+from more_itertools import chunked
+from numpy.typing import NDArray
 
+from .structure import Structure
 from .types import MeshAxes
 from .units import to_angstrom
 
