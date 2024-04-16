@@ -60,6 +60,11 @@ sphinx:
     html_theme: sphinx_book_theme
     html_theme_options:
       navigation_with_keys: False
+      repository_url: https://github.com/graphcore-research/mess
+      repository_branch: main
+      path_to_docs: docs
+      launch_buttons:
+        colab_url: https://colab.research.google.com
     html_show_copyright: False
     html_static_path: ["_static"]
     html_css_files: ["style.css"]
