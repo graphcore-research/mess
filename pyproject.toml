@@ -1,0 +1,63 @@
+[build-system]
+requires = ["setuptools>=64", "setuptools_scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mess"
+authors = [{ name = "Graphcore Research", email = "contact@graphcore.ai" }]
+description = "MESS: Modern Electronic Structure Simulations"
+readme = "README.md"
+license = { text = "MIT License" }
+requires-python = ">=3.10"
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Topic :: Scientific/Engineering",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+]
+dependencies = [
+  "equinox",
+  "jax[cpu]",
+  "jaxtyping",
+  "more-itertools",
+  "optax",
+  "optimistix",
+  "pandas",
+  "periodictable",
+  "pyarrow",
+  "pyscf",
+  "py3Dmol",
+  "basis_set_exchange",
+  "sympy",
+  "pyquante2@git+https://github.com/rpmuller/pyquante2@pure",
+]
+dynamic = ["version"]
+
+[project.optional-dependencies]
+dev = [
+  "jupyter-book",
+  "pytest",
+  "pytest-benchmark",
+  "pre-commit",
+  "ruff",
+  "mdformat-gfm",
+  "seaborn",
+]
+
+[tool.pytest.ini_options]
+addopts = "-s -v --durations=10"
+filterwarnings = [
+  "error",
+  'ignore:Since PySCF\-2\.3, B3LYP \(and B3P86\) are changed.*:UserWarning',
+  'ignore:Function mol\.dumps drops attribute spin.*:UserWarning',
+  'ignore:scatter inputs have incompatible types.*:FutureWarning'
+]
+
+[tool.ruff]
+extend-include = ["*.ipynb"]
+
+[tool.ruff.lint]
+select = ["E", "F", "CPY001"]
+ignore = ["E741"]
+flake8-copyright.author = "Graphcore"

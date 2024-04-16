@@ -1,0 +1,66 @@
+# Book settings
+# Learn more at https://jupyterbook.org/customize/config.html
+
+title: "MESS"
+author: "Graphcore Research"
+copyright: "2024"
+
+# Force re-execution of notebooks on each build.
+# See https://jupyterbook.org/content/execute.html
+execute:
+  execute_notebooks: force
+  exclude_patterns:
+    - 'tour.ipynb'
+
+# Define the name of the latex output file for PDF builds
+latex:
+  latex_engine: xelatex
+  latex_documents:
+    targetname: book.tex
+
+parse:
+  myst_enable_extensions:
+    - amsmath
+    - dollarmath
+    - colon_fence
+
+# Add a bibtex file so that we can create citations
+bibtex_bibfiles:
+  - references.bib
+
+# Information about where the book exists on the web
+repository:
+  url: https://github.com/graphcore-research/mess
+  path_to_book: docs
+  branch: main
+
+# Add GitHub buttons to your book
+# See https://jupyterbook.org/customize/config.html#add-a-link-to-your-repository
+html:
+  use_issues_button: true
+  use_repository_button: true
+
+launch_buttons:
+  colab_url: "https://colab.research.google.com"
+
+sphinx:
+  extra_extensions:
+    - "sphinx.ext.autodoc"
+    - "sphinx.ext.autosummary"
+    - "sphinx.ext.mathjax"
+    - "sphinx.ext.napoleon"
+    - "sphinx.ext.viewcode"
+    - "sphinx_design"
+  config:
+    add_module_names: False
+    autosummary_generate: True
+    autodoc_typehints: "description"
+    autodoc_class_signature: "separated"
+    templates_path: "_templates"
+    html_theme: sphinx_book_theme
+    html_theme_options:
+      navigation_with_keys: False
+    html_show_copyright: False
+    html_static_path: ["_static"]
+    html_css_files: ["style.css"]
+    mathjax_path: https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js

@@ -1,0 +1,17 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: intro
+parts:
+  - caption: Getting Started
+    chapters:
+    - file: tour
+    - file: prologue
+  - caption: Miscellaneous Things that Might be Useful
+    chapters:
+    - file: gto_integrals
+    - file: gammanu
+  - caption: API Documentation
+    chapters:
+    - file: api
