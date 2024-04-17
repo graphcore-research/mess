@@ -73,7 +73,18 @@ class Basis(eqx.Module):
         return hash(self.primitives)
 
 
-def basisset(structure: Structure, basis_name: str = "sto-3g"):
+def basisset(structure: Structure, basis_name: str = "sto-3g") -> Basis:
+    """Factory function for building a basis set for a structure.
+
+    Args:
+        structure (Structure): Used to define the basis function parameters.
+        basis_name (str, optional): Basis set name to look up on the
+            `basis set exchange <https://www.basissetexchange.org/>`_.
+            Defaults to ``sto-3g``.
+
+    Returns:
+        Basis constructed from inputs
+    """
     from basis_set_exchange import get_basis
     from basis_set_exchange.sort import sort_basis
 
