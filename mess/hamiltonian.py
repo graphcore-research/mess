@@ -153,10 +153,11 @@ class Hamiltonian(eqx.Module):
         self.xcfunc = build_xcfunc(xc_method, basis, self.two_electron)
 
     def __call__(self, P: FloatNxN) -> float:
+        E_core = jnp.sum(self.H_core * P)
         E_xc = self.xcfunc(P)
         J = self.two_electron.coloumb(P)
         E_es = 0.5 * jnp.sum(J * P)
-        E = jnp.sum(self.H_core * P) + E_xc + E_es
+        E = E_core + E_xc + E_es
         return E
 
 
