@@ -56,6 +56,14 @@ class Basis(eqx.Module):
         return df
 
     def density_matrix(self, C: FloatNxN) -> FloatNxN:
+        """Evaluate the density matrix from the molecular orbital coefficients
+
+        Args:
+            C (FloatNxN): the molecular orbital coefficients
+
+        Returns:
+            FloatNxN: the density matrix.
+        """
         return jnp.einsum("k,ik,jk->ij", self.occupancy, C, C)
 
     @jit
