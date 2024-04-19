@@ -41,7 +41,19 @@ class Structure(eqx.Module):
         return v._repr_html_()
 
 
-def molecule(name: str):
+def molecule(name: str) -> Structure:
+    """Builds a few sample molecules
+
+    Args:
+        name (str): either "h2" or "water". More to be added.
+
+    Raises:
+        NotImplementedError: _description_
+
+    Returns:
+        Structure: the built molecule as a Structure object
+    """
+
     name = name.lower()
 
     if name == "h2":
