@@ -1,6 +1,6 @@
 # Copyright (c) 2024 Graphcore Ltd. All rights reserved.
 from functools import partial
-from typing import Tuple
+from typing import Tuple, Callable
 
 import jax.numpy as jnp
 from jax import config
@@ -18,6 +18,8 @@ IntN = Int[Array, "N"]
 MeshAxes = Tuple[FloatN, FloatN, FloatN]
 
 asintarray = partial(jnp.asarray, dtype=jnp.int32)
+
+OrthTransform = Callable[[FloatNxN], FloatNxN]
 
 
 def default_fptype():

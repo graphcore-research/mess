@@ -12,7 +12,7 @@ from mess.interop import to_pyscf
 from mess.mesh import Mesh, density, density_and_grad, xcmesh_from_pyscf
 from mess.scf import otransform_symmetric
 from mess.structure import nuclear_energy
-from mess.types import FloatNxN
+from mess.types import FloatNxN, OrthTransform
 from mess.xcfunctional import (
     lda_correlation_vwn,
     lda_exchange,
@@ -164,7 +164,10 @@ class Hamiltonian(eqx.Module):
     xcfunc: eqx.Module
 
     def __init__(
-        self, basis: Basis, otransform=otransform_symmetric, xc_method: str = "lda"
+        self,
+        basis: Basis,
+        otransform: OrthTransform = otransform_symmetric,
+        xc_method: str = "lda",
     ):
         super().__init__()
         S = overlap_basis(basis)
