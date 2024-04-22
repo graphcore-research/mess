@@ -27,6 +27,12 @@ class TwoElectron(eqx.Module):
     eri: Array
 
     def __init__(self, basis: Basis, backend: str = "mess"):
+        """
+
+        Args:
+            basis (Basis): the basis set used to build the electron repulsion integrals
+            backend (str, optional): Integral backend used. Defaults to "mess".
+        """
         super().__init__()
         if backend == "mess":
             self.eri = eri_basis(basis)
@@ -35,9 +41,25 @@ class TwoElectron(eqx.Module):
             self.eri = jnp.array(mol.intor("int2e_cart", aosym="s1"))
 
     def coloumb(self, P: FloatNxN) -> FloatNxN:
+        """Build the Coloumb matrix (classical electrostatic) from the density matrix.
+
+        Args:
+            P (FloatNxN): the density matrix
+
+        Returns:
+            FloatNxN: Coloumb matrix
+        """
         return jnp.einsum("kl,ijkl->ij", P, self.eri)
 
     def exchange(self, P: FloatNxN) -> FloatNxN:
+        """Build the quantum-mechanical exchange matrix from the density matrix
+
+        Args:
+            P (FloatNxN): the density matrix
+
+        Returns:
+            FloatNxN: Exchange matrix
+        """
         return jnp.einsum("ij,ikjl->kl", P, self.eri)
 
 
