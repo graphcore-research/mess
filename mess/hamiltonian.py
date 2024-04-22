@@ -157,6 +157,7 @@ def build_xcfunc(xc_method: str, basis: Basis, two_electron: TwoElectron) -> eqx
 
 
 class Hamiltonian(eqx.Module):
+    X: FloatNxN
     H_core: FloatNxN
     basis: Basis
     two_electron: TwoElectron
@@ -165,10 +166,13 @@ class Hamiltonian(eqx.Module):
     def __init__(
         self,
         basis: Basis,
+        ont: OrthNormTransform = otransform_symmetric,
         xc_method: str = "lda",
     ):
         super().__init__()
         self.basis = basis
+        S = overlap_basis(basis)
+        self.X = ont(S)
         self.H_core = kinetic_basis(basis) + nuclear_basis(basis).sum(axis=0)
         self.two_electron = TwoElectron(basis, backend="pyscf")
         self.xcfunc = build_xcfunc(xc_method, basis, self.two_electron)
@@ -181,19 +185,22 @@ class Hamiltonian(eqx.Module):
         E = E_core + E_xc + E_es
         return E
 
+    def orthonormalise(self, Z: FloatNxN) -> FloatNxN:
+        C = self.X @ jnl.qr(Z).Q
+        return C
+
 
 @jax.jit
-def minimise(H: Hamiltonian, ont: OrthNormTransform = otransform_symmetric):
+def minimise(H: Hamiltonian):
     def f(Z, _):
-        C = X @ jnl.qr(Z).Q
+        C = H.orthonormalise(Z)
         P = H.basis.density_matrix(C)
         return H(P)
 
-    X = ont(overlap_basis(H.basis))
     solver = optx.BFGS(rtol=1e-5, atol=1e-6)
     Z = jnp.eye(H.basis.num_orbitals)
     sol = optx.minimise(f, solver, Z)
-    C = X @ jnl.qr(sol.value).Q
+    C = H.orthonormalise(sol.value)
     P = H.basis.density_matrix(C)
     E_elec = H(P)
     E_total = E_elec + nuclear_energy(H.basis.structure)
