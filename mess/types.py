@@ -19,7 +19,7 @@ MeshAxes = Tuple[FloatN, FloatN, FloatN]
 
 asintarray = partial(jnp.asarray, dtype=jnp.int32)
 
-OrthTransform = Callable[[FloatNxN], FloatNxN]
+OrthNormTransform = Callable[[FloatNxN], FloatNxN]
 
 
 def default_fptype():
