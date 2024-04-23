@@ -1,4 +1,5 @@
 # Copyright (c) 2024 Graphcore Ltd. All rights reserved.
+from typing import Tuple
 import equinox as eqx
 import jax
 import jax.numpy as jnp
@@ -191,7 +192,19 @@ class Hamiltonian(eqx.Module):
 
 
 @jax.jit
-def minimise(H: Hamiltonian):
+def minimise(H: Hamiltonian) -> Tuple[ScalarLike, FloatNxN, optx.Solution]:
+    """Solve for the electronic coefficients that minimise the total energy
+
+    Args:
+        H (Hamiltonian): the Hamiltonian for the given basis set and molecular structure
+
+    Returns:
+        Tuple[ScalarLike, FloatNxN, optimistix.Solution]: Tuple with elements:
+            - total energy in atomic units
+            - coefficient matrix C that minimises the Hamiltonian
+            - the optimistix.Solution object
+    """
+
     def f(Z, _):
         C = H.orthonormalise(Z)
         P = H.basis.density_matrix(C)
