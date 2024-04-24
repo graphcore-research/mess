@@ -31,6 +31,7 @@ dependencies = [
   "basis_set_exchange",
   "sympy",
   "pyquante2@git+https://github.com/rpmuller/pyquante2@pure",
+  "tqdm",
 ]
 dynamic = ["version"]
 
