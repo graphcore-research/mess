@@ -1,5 +1,5 @@
 # Copyright (c) 2024 Graphcore Ltd. All rights reserved.
-from typing import Tuple
+from typing import Tuple, Literal, get_args
 import equinox as eqx
 import jax
 import jax.numpy as jnp
@@ -22,6 +22,9 @@ from mess.xcfunctional import (
     gga_exchange_b88,
     gga_correlation_lyp,
 )
+
+
+xcstr = Literal["lda", "pbe", "pbe0", "b3lyp", "hfx"]
 
 
 class TwoElectron(eqx.Module):
@@ -142,19 +145,26 @@ class B3LYP(eqx.Module):
         return E_xc + 0.2 * self.hfx(P)
 
 
-def build_xcfunc(xc_method: str, basis: Basis, two_electron: TwoElectron) -> eqx.Module:
-    if xc_method == "lda":
-        return LDA(basis)
-    if xc_method == "pbe":
-        return PBE(basis)
-    if xc_method == "pbe0":
-        return PBE0(basis, two_electron)
-    if xc_method == "b3lyp":
-        return B3LYP(basis, two_electron)
-    if xc_method == "hfx":
-        return HartreeFockExchange(two_electron)
-
-    raise ValueError(f"Unsupported exchange-correlation option: {xc_method}")
+def build_xcfunc(
+    xc_method: xcstr, basis: Basis, two_electron: TwoElectron
+) -> eqx.Module:
+    match xc_method:
+        case "lda":
+            return LDA(basis)
+        case "pbe":
+            return PBE(basis)
+        case "pbe0":
+            return PBE0(basis, two_electron)
+        case "b3lyp":
+            return B3LYP(basis, two_electron)
+        case "hfx":
+            return HartreeFockExchange(two_electron)
+        case _:
+            methods = get_args(xcstr)
+            methods = ", ".join(methods)
+            msg = f"Unsupported exchange-correlation option: {xc_method}."
+            msg += f"\nMust be one of the following: {methods}"
+            raise ValueError(msg)
 
 
 class Hamiltonian(eqx.Module):
@@ -168,7 +178,7 @@ class Hamiltonian(eqx.Module):
         self,
         basis: Basis,
         ont: OrthNormTransform = otransform_symmetric,
-        xc_method: str = "lda",
+        xc_method: xcstr = "lda",
     ):
         super().__init__()
         self.basis = basis
