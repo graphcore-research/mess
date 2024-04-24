@@ -48,3 +48,5 @@ feedback as [issues](https://github.com/graphcore-research/mess/issues).
 ```
 pip install git+https://github.com/graphcore-research/mess.git
 ```
+
+Requires Python 3.10+ and we recommend [installing JAX](https://jax.readthedocs.io/en/latest/installation.html) for your target system (e.g. CPU, GPU, etc).
