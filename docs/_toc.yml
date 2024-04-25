@@ -9,6 +9,7 @@ parts:
     - file: tour
     - file: prologue
     - file: optim
+    - file: batching
     - file: quirks
   - caption: Miscellaneous Things that Might be Useful
     chapters:
