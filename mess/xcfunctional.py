@@ -137,7 +137,8 @@ def gga_correlation_pbe(
     # avoid divide by zero when rho = 0 by replacing with 1.0
     mask = jnp.abs(rho) > threshold
     rho = jnp.where(mask, rho, 1.0)
-    A = beta / gamma * (jnp.exp(-ec_pw / (gamma * phi**3)) - 1) ** -1  # Eq 8
+    mask_ecpw = jnp.where(mask, ec_pw, 1.0)
+    A = beta / gamma * (jnp.exp(-mask_ecpw / (gamma * phi**3)) - 1) ** -1  # Eq 8
     kf = (3 * np.pi**2 * rho) ** (1 / 3)
     ks = jnp.sqrt(4 * kf / np.pi)
     t = jnl.norm(grad_rho, axis=1) / (2 * phi * ks * rho)
