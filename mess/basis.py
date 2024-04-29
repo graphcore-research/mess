@@ -77,6 +77,10 @@ class Basis(eqx.Module):
         headers = ["primitive"] + df.columns.to_list()
         return tabulate(df, headers)
 
+    def _repr_html_(self) -> str | None:
+        df = self.to_dataframe()
+        return df._repr_html_()
+
     def __hash__(self) -> int:
         return hash(self.primitives)
 
