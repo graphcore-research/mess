@@ -1,9 +1,4 @@
 # Copyright (c) 2024 Graphcore Ltd. All rights reserved.
-import jax.numpy as jnp
-import jax.numpy.linalg as jnl
-
-from mess.types import FloatNxN
-
 """Orthonormal transformation.
 
 Evaluates the transformation matrix :math:`X` that satisfies
@@ -15,6 +10,11 @@ where :math:`\mathbf{S}` is the overlap matrix of the non-orthonormal basis and
 
 This module implements a few commonly used orthonormalisation transforms.
 """
+
+import jax.numpy as jnp
+import jax.numpy.linalg as jnl
+
+from mess.types import FloatNxN
 
 
 def canonical(S: FloatNxN) -> FloatNxN:
@@ -60,7 +60,7 @@ def cholesky(S: FloatNxN) -> FloatNxN:
 
     .. math:: \mathbf{X} = (\mathbf{L}^{-1})^T
 
-    where :math:`\mathbf{L}` is the lower triangular matrix the satisfies the Cholesky
+    where :math:`\mathbf{L}` is the lower triangular matrix that satisfies the Cholesky
     decomposition of the overlap matrix :math:`\mathbf{S}`.
 
     Args:
