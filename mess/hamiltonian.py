@@ -12,7 +12,7 @@ from mess.basis import Basis
 from mess.integrals import eri_basis, kinetic_basis, nuclear_basis, overlap_basis
 from mess.interop import to_pyscf
 from mess.mesh import Mesh, density, density_and_grad, xcmesh_from_pyscf
-from mess.scf import otransform_symmetric
+from mess.orthnorm import canonical
 from mess.structure import nuclear_energy
 from mess.types import FloatNxN, OrthNormTransform
 from mess.xcfunctional import (
@@ -182,7 +182,7 @@ class Hamiltonian(eqx.Module):
     def __init__(
         self,
         basis: Basis,
-        ont: OrthNormTransform = otransform_symmetric,
+        ont: OrthNormTransform = canonical,
         xc_method: xcstr = "lda",
     ):
         super().__init__()

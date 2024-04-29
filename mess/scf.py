@@ -1,6 +1,4 @@
 # Copyright (c) 2024 Graphcore Ltd. All rights reserved.
-from typing import Callable
-
 import jax.numpy as jnp
 import jax.numpy.linalg as jnl
 from jax.lax import while_loop
@@ -8,28 +6,13 @@ from jax.lax import while_loop
 from mess.basis import Basis
 from mess.integrals import eri_basis, kinetic_basis, nuclear_basis, overlap_basis
 from mess.structure import nuclear_energy
-
-
-def otransform_canonical(S):
-    s, U = jnl.eigh(S)
-    s = jnp.diag(jnp.power(s, -0.5))
-    return U @ s
-
-
-def otransform_symmetric(S):
-    s, U = jnl.eigh(S)
-    s = jnp.diag(jnp.power(s, -0.5))
-    return U @ s @ U.T
-
-
-def otransform_cholesky(S):
-    L = jnl.cholesky(S)
-    return jnl.inv(L).T
+from mess.orthnorm import cholesky
+from mess.types import OrthNormTransform
 
 
 def scf(
     basis: Basis,
-    otransform: Callable = otransform_cholesky,
+    otransform: OrthNormTransform = cholesky,
     max_iters: int = 32,
     tolerance: float = 1e-4,
 ):
