@@ -1,5 +1,5 @@
 # Copyright (c) 2024 Graphcore Ltd. All rights reserved.
-"""Orthonormal transformation.
+r"""Orthonormal transformation.
 
 Evaluates the transformation matrix :math:`X` that satisfies
 
@@ -18,7 +18,7 @@ from mess.types import FloatNxN
 
 
 def canonical(S: FloatNxN) -> FloatNxN:
-    """Canonical orthonormal transformation
+    r"""Canonical orthonormal transformation
 
     .. math:: \mathbf{X} = \mathbf{U} \mathbf{s}^{-1/2}
 
@@ -37,7 +37,7 @@ def canonical(S: FloatNxN) -> FloatNxN:
 
 
 def symmetric(S: FloatNxN) -> FloatNxN:
-    """Symmetric orthonormal transformation
+    r"""Symmetric orthonormal transformation
 
     .. math:: \mathbf{X} = \mathbf{U} \mathbf{s}^{-1/2} \mathbf{U}^T
 
@@ -56,7 +56,7 @@ def symmetric(S: FloatNxN) -> FloatNxN:
 
 
 def cholesky(S: FloatNxN) -> FloatNxN:
-    """Cholesky orthonormal transformation
+    r"""Cholesky orthonormal transformation
 
     .. math:: \mathbf{X} = (\mathbf{L}^{-1})^T
 

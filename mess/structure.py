@@ -83,7 +83,7 @@ def molecule(name: str) -> Structure:
 
 
 def nuclear_energy(structure: Structure) -> float:
-    """Nuclear electrostatic interaction energy
+    r"""Nuclear electrostatic interaction energy
 
     Evaluated by taking sum over all unique pairs of atom centers:
 
