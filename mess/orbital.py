@@ -1,4 +1,5 @@
 # Copyright (c) 2024 Graphcore Ltd. All rights reserved.
+"""Container for a linear combination of Gaussian Primitives (aka contraction)."""
 
 from functools import partial
 from typing import Tuple

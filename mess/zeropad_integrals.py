@@ -1,4 +1,6 @@
 # Copyright (c) 2024 Graphcore Ltd. All rights reserved.
+"""(experimental) Gaussian orbital integrals without array padding."""
+
 from functools import partial
 
 import jax.numpy as jnp

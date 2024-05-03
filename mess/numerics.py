@@ -1,4 +1,6 @@
 # Copyright (c) 2024 Graphcore Ltd. All rights reserved.
+"""Function decorators to automate converting between numeric formats."""
+
 from functools import wraps
 from typing import Callable
 

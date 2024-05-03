@@ -1,4 +1,6 @@
 # Copyright (c) 2024 Graphcore Ltd. All rights reserved.
+"""basis sets of Gaussian type orbitals"""
+
 from typing import Tuple
 
 import equinox as eqx

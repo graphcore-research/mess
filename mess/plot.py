@@ -1,4 +1,6 @@
 # Copyright (c) 2024 Graphcore Ltd. All rights reserved.
+"""Visualisations of molecular structures and volumetric data."""
+
 import numpy as np
 import py3Dmol
 from more_itertools import chunked

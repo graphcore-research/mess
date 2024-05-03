@@ -1,4 +1,6 @@
 # Copyright (c) 2024 Graphcore Ltd. All rights reserved.
+"""Primitive Gaussian type orbitals"""
+
 from typing import Optional
 
 import equinox as eqx

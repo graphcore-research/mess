@@ -1,4 +1,10 @@
 # Copyright (c) 2024 Graphcore Ltd. All rights reserved.
+"""Types used throughout MESS
+
+Note:
+    ``N`` represents the number of atomic orbitals.
+"""
+
 from functools import partial
 from typing import Tuple, Callable
 

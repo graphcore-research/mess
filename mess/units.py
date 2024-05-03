@@ -1,4 +1,11 @@
 # Copyright (c) 2024 Graphcore Ltd. All rights reserved.
+"""Conversion between Bohr and Angstrom units
+
+Note:
+    MESS uses atomic units internally so these conversions are only necessary when
+    working with external packages.
+"""
+
 from jaxtyping import Array
 
 # Maximum value an individual component of the angular momentum lmn can take

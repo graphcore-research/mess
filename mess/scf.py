@@ -1,4 +1,6 @@
 # Copyright (c) 2024 Graphcore Ltd. All rights reserved.
+"""Vanilla self-consistent field solver implementation."""
+
 import jax.numpy as jnp
 import jax.numpy.linalg as jnl
 from jax.lax import while_loop

@@ -1,4 +1,25 @@
 # Copyright (c) 2024 Graphcore Ltd. All rights reserved.
+"""
+JAX implementation for integrals over Gaussian basis functions.
+
+Based upon the closed-form expressions derived in
+
+    Taketa, H., Huzinaga, S., & O-ohata, K. (1966). Gaussian-expansion methods for
+    molecular integrals. Journal of the physical society of Japan, 21(11), 2313-2324.
+    <https://doi.org/10.1143/JPSJ.21.2313>
+
+Hereafter referred to as the "THO paper"
+
+Related work:
+
+[1] Augspurger JD, Dykstra CE. General quantum mechanical operators. An
+    open-ended approach for one-electron integrals with Gaussian bases. Journal of
+    computational chemistry. 1990 Jan;11(1):105-11.
+    <https://doi.org/10.1002/jcc.540110113>
+
+[2] PyQuante: <https://github.com/rpmuller/pyquante2/>
+"""
+
 from dataclasses import asdict
 from functools import partial
 from itertools import product as cartesian_product
@@ -22,26 +43,6 @@ from mess.special import (
 )
 from mess.types import Float3, FloatNxN
 from mess.units import LMAX
-
-"""
-JAX implementation for integrals over Gaussian basis functions. Based upon the
-closed-form expressions derived in
-
-    Taketa, H., Huzinaga, S., & O-ohata, K. (1966). Gaussian-expansion methods for
-    molecular integrals. Journal of the physical society of Japan, 21(11), 2313-2324.
-    <https://doi.org/10.1143/JPSJ.21.2313>
-
-Hereafter referred to as the "THO paper"
-
-Related work:
-
-[1] Augspurger JD, Dykstra CE. General quantum mechanical operators. An
-    open-ended approach for one-electron integrals with Gaussian bases. Journal of
-    computational chemistry. 1990 Jan;11(1):105-11.
-    <https://doi.org/10.1002/jcc.540110113>
-
-[2] PyQuante: <https://github.com/rpmuller/pyquante2/>
-"""
 
 BinaryPrimitiveOp = Callable[[Primitive, Primitive], float]
 
