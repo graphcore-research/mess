@@ -7,7 +7,7 @@
 > Definitely not an official Graphcore product!\
 > :hammer: :skull: :warning: :wrench:
 
-[![docs](https://img.shields.io/badge/MESS-docs-blue?logo=bookstack)](https://urban-disco-ln3g6we.pages.github.io/intro.html)
+[![docs](https://img.shields.io/badge/MESS-docs-blue?logo=bookstack)](https://graphcore-research.github.io/mess)
 [![unit tests](https://github.com/graphcore-research/mess/actions/workflows/unittest.yaml/badge.svg)](https://github.com/graphcore-research/mess/actions/workflows/unittest.yaml)
 [![pre-commit checks](https://github.com/graphcore-research/mess/actions/workflows/pre-commit.yaml/badge.svg)](https://github.com/graphcore-research/mess/actions/workflows/pre-commit.yaml)
 
