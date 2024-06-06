@@ -8,6 +8,7 @@
 > :hammer: :skull: :warning: :wrench:
 
 [![docs](https://img.shields.io/badge/MESS-docs-blue?logo=bookstack)](https://graphcore-research.github.io/mess)
+[![arXiv](https://img.shields.io/badge/arXiv-2406.03121-b31b1b.svg)](https://arxiv.org/abs/2406.03121)
 [![unit tests](https://github.com/graphcore-research/mess/actions/workflows/unittest.yaml/badge.svg)](https://github.com/graphcore-research/mess/actions/workflows/unittest.yaml)
 [![pre-commit checks](https://github.com/graphcore-research/mess/actions/workflows/pre-commit.yaml/badge.svg)](https://github.com/graphcore-research/mess/actions/workflows/pre-commit.yaml)
 
@@ -50,3 +51,18 @@ pip install git+https://github.com/graphcore-research/mess.git
 ```
 
 Requires Python 3.10+ and we recommend [installing JAX](https://jax.readthedocs.io/en/latest/installation.html) for your target system (e.g. CPU, GPU, etc).
+
+
+## Citation
+If you found this library to be useful in academic work, then please cite our
+[arXiv paper](https://arxiv.org/abs/2406.03121)
+```
+@misc{helal2024mess,
+      title={MESS: Modern Electronic Structure Simulations},
+      author={Hatem Helal and Andrew Fitzgibbon},
+      year={2024},
+      eprint={2406.03121},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG}
+}
+```
