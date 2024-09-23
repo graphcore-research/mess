@@ -1,3 +1,7 @@
+> [!WARNING]
+> This repo is now a public archive of the initial development of MESS.
+> Please direct any questions and/or feedback to [valence-labs/mess](https://github.com/valence-labs/mess)
+
 # MESS: Modern Electronic Structure Simulations
 
 > [!IMPORTANT]
